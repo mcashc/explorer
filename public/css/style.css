@@ -96,7 +96,7 @@ p{
 .homebanner{
   width: 100%;
   background-color: rgb(39, 48, 79);
-  height: 370px;
+  height: 666px;
   background-size: cover;
   position: relative;
 }
@@ -113,8 +113,8 @@ p{
   color: white;
   font-size: 50px;
   font-weight: bold;
-  padding-top: 50px;
-  padding-bottom: 10px;
+  padding-top: 180px;
+  padding-bottom: 20px;
   padding-left: 100px;
 }
 .homebanner h3 {
