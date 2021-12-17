@@ -5,7 +5,7 @@ var ipa = ip.address();
 
 var options = {
     port: 9091,
-    host: '172.31.32.1',
+    host: '192.168.0.104',
     //host:ipa,
     path: '/',
     strict: true
