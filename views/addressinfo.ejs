@@ -1,0 +1,145 @@
+<%- include("layout/header") %>
+    
+<p id="address" class="d-none"><%=address %></p>
+<script type="text/javascript" language="javascript" class="init">
+var address = $("#address").text();
+$.ajax({
+        method:'GET',
+        url:'/api/addressinfo/'+address,
+        beforeSend: function() {
+        $("#loaderDiv").show();
+        },
+        success:function(res){
+            $("#balance").html(res.balance);
+            $("#totalin").html(res.totalin);
+            $("#totalout").html(res.totalout);
+            $("#trxcount").html(res.transactions.length);
+            var trx ='';
+            $.each(res.transactions,function(key,value){     
+            trx += '<tr>';
+            trx += '<td>'+ '<a href='+"/explorer/trx/"+value.trxhash+'>'+ value.trxhash.substring(0, 20) +'...</a>' +'</td>';
+            if(address==value.from_address){
+                trx += '<td><p class="bg-danger text-white p-1 rounded">-'+ value.amountin +'</p></td>';
+            }else{
+                trx += '<td><p class="bg-success text-white p-1 rounded">+'+ value.amountout +'</p></td>';
+            }
+            
+            if(value.from_address=="coinbase"){
+                trx += '<td>'+ "COINBASE (Newly Generated Coins)" +'</td>';
+            }else{
+                trx += '<td>'+ '<a href='+"/explorer/address/"+value.from_address+'>'+ value.from_address.substring(0,20)+'...</a>' +'</td>';
+            }
+            trx += '<td>'+ '<a href='+"/explorer/address/"+value.to_address+'>'+ value.to_address.substring(0,20) +'...</a>' +'</td>';
+            trx += '<td>'+ value.fee +'</td>';
+            if(value.status==0){
+                trx += '<td > Pending</td>';
+            }else{
+                trx += '<td >Confirmed</td>';
+            }
+            trx += '<td>'+ value.blocktime +'</td>';
+            trx += '</tr>';      
+            });
+
+            $("#trxTable").append(trx);
+            $("#loaderDiv").hide();
+            $("#addresshis").show();
+        }
+});
+
+</script>
+
+<div class="container mt-5">
+  <div style="display: none;" id="addresshis">
+    <div class="row">
+            <ul class="list-group" style="display: inline-block;overflow: hidden; ">
+                <li class="list-group-item">
+                    <div class="row">
+                        <div class="col-md-4">
+                            Address
+                        </div>
+                        <script>
+                            $(document).ready(function(){
+                                $("#copy").click(function(){
+                                    var copyText = document.getElementById("address");
+                                    var textArea = document.createElement("textarea");
+                                    textArea.value = copyText.textContent;
+                                    document.body.appendChild(textArea);
+                                    textArea.select();
+                                    document.execCommand("Copy");
+                                    textArea.remove();
+                                });
+                           });
+                        </script>
+                        <div class="col-md-8" >
+                            <span id="address"><%=address %></span> <i class="fa fa-copy" type="button" id="copy" style="cursor: pointer;"></i>
+                      </div>
+                    </div>
+                  </li>
+    
+                <li class="list-group-item">
+                    <div class="row">
+                        <div class="col-md-4">
+                           Total Received
+                        </div>
+                        <div class="col-md-8" id="totalin">
+                            
+                      </div>
+                    </div>
+                  </li>
+                <li class="list-group-item">
+                    <div class="row">
+                        <div class="col-md-4">
+                            Total Sent
+                        </div>
+                        <div class="col-md-8" id="totalout">
+                            
+                      </div>
+                    </div>
+                  </li>
+                  <li class="list-group-item">
+                    <div class="row">
+                        <div class="col-md-4">
+                            Total transactions
+                        </div>
+                        <div class="col-md-8" id="trxcount">
+                            
+                      </div>
+                    </div>
+                  </li>
+                  <li class="list-group-item">
+                    <div class="row">
+                        <div class="col-md-4">
+                          Final Balance
+                        </div>
+                        <div class="col-md-8" id="balance">
+                            
+                      </div>
+                    </div>
+                  </li>
+            </ul>
+           <div class="table-responsive" >
+            <h3 class="mt-5">Transactions </h3>
+            <table class="table mb-5" id="trxTable">
+                <tr>
+                  <th>Trx Hash</th>
+                  <th>Amount Transacted</th>
+                  <th>From</th>
+                  <th>To</th>
+                  <th>Txn Fee</th>
+                  <th>Status</th>
+                  <th>Time UTC </th>
+                </tr>
+            </table>
+           </div>
+           
+      </div>
+  </div>
+  <div class="d-flex justify-content-center" style="margin-bottom: 100px;">
+    <div id="loaderDiv" class="spinner-border text-danger  mt-5 mb-5 " role="status">
+        <span class="sr-only">Loading...</span>
+      </div>
+   </div>
+</div>
+
+
+<%- include("layout/footer") %>

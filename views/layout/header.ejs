@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width" />
+    <link rel="stylesheet" href="/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="/css/style.css"/>
+    <link rel="stylesheet" href="/css/responsive.css"/>
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" 
+    integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" 
+    crossorigin="anonymous"/>
+
+    <link rel="icon" href="/images/favicon.png"/>
+    <script src="/js/bootstrap.min.js" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.css">
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.js"></script>
+    <script type="text/javascript" charset="utf8" src="/js/notify.js"></script>
+    <title><%= title %></title>
+  </head>
+  <body>
+
+    <nav class="navbar navbar-expand-lg navbar-white bg-white fixed-top">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">
+                <img src="/images/favicon.png" class="logo" />
+                MCash
+            </a>
+          <button class="btn btn-secondary menubtn" type="button" data-bs-toggle="collapse" 
+          data-bs-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" 
+          aria-expanded="false" aria-label="Toggle navigation">
+          <i class="fa fa-bars"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0"></ul>
+            <ul class="navbar-nav d-flex mb-2 mb-lg-0">
+              <li class="nav-item">
+                <a class="nav-link" aria-current="page" href="/">Home</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/explorer">Explorer</a>
+              </li>
+              <li class="nav-item" id="dashboard" style="display: none;">
+                <a class="nav-link" href="/account">Account</a>
+              </li>
+              <li class="nav-item" id="acc">
+                
+              </li>
+              </ul>
+<script>
+    $(document).ready(function(){
+    var address = window.sessionStorage.getItem('address');
+    if(address==null){
+      $("#acc").html('<a class="nav-link" href="/access/wallet">Wallet Access</a>');
+      $("#dashboard").hide();
+    }else{
+      $("#acc").html('<a class="nav-link" type="button" id="logout">Logout</a>');
+      $("#dashboard").show();
+    }
+   
+    $("#logout").click(function(){
+      window.sessionStorage.removeItem('privateKey');
+      window.sessionStorage.removeItem('publickey');
+      window.sessionStorage.removeItem('address');
+      window.location.href='/access/wallet';
+    });
+  });
+</script>
+              
+          </div>
+        </div>
+      </nav>
+      <div class="extra">
+
+      </div>

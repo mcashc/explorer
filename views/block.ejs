@@ -1,0 +1,267 @@
+<%- include("layout/header") %>
+    
+<p id="block" class="d-none"><%= block %></p>
+<script type="text/javascript" language="javascript" class="init">
+var block = $("#block").text();
+var bcountl = block.length;
+
+if(bcountl>55){
+  $.ajax({
+        method:'GET',
+        url:'/api/blockInfoHash/'+block,
+        beforeSend: function() {
+        $("#loaderDiv").show();
+        },
+        success:function(res){
+            $("#tblock").html(res.block_index);
+            $("#hash").html(res.hash);
+            $("#prevhash").html(res.prevhash);
+            $("#confirm").html(res.confirmation);
+            $("#tstamp").html(res.tstamp);
+            $("#block_index").html(res.block_index);
+            $("#minerName").html(res.minerAddress);
+            $("#minerName").attr("href", "/explorer/address/"+res.minerAddress);
+            $("#tcount").html(res.transaction.length);
+            $("#difficulty").html(res.difficulty);
+            $("#markle").html(res.markle);
+            $("#size").html(res.block_size+" Byte");
+            $("#nonce").html(res.nonce);
+            $("#block_reward").html(res.block_reward);
+            $("#fee_reward").html(res.fee_reward);
+            
+            var trx ='';
+            $.each(res.transaction,function(key,value){     
+            trx += '<tr>';
+            trx += '<td>'+ '<a href='+"/explorer/trx/"+value.trxhash+'>'+ value.trxhash.substring(0, 20) +'...</a>' +'</td>';
+            trx += '<td>'+ value.amountin +'</td>';
+            if(value.from_address=="coinbase"){
+                trx += '<td>'+ "COINBASE (Newly Generated Coins)" +'</td>';
+            }else{
+                trx += '<td>'+ '<a href='+"/explorer/address/"+value.from_address+'>'+ value.from_address+'</a>' +'</td>';
+            }
+            trx += '<td>'+ '<a href='+"/explorer/address/"+value.to_address+'>'+ value.to_address +'</a>' +'</td>';
+            trx += '<td>'+ value.fee +'</td>';
+            trx += '<td>'+ value.blocktime +'</td>';
+            trx += '</tr>';      
+            });
+
+            $("#trxTable").append(trx);
+        $("#loaderDiv").hide();
+        $("#blockhis").show();
+        }
+});
+
+}else{
+  $.ajax({
+        method:'GET',
+        url:'/api/blockInfoHeight/'+block,
+        beforeSend: function() {
+        $("#loaderDiv").show();
+        },
+        success:function(res){
+            $("#tblock").html(res.block_index);
+            $("#hash").html(res.hash);
+            $("#prevhash").html(res.prevhash);
+            $("#confirm").html(res.confirmation);
+            $("#tstamp").html(res.tstamp);
+            $("#block_index").html(res.block_index);
+            $("#minerName").html(res.minerAddress);
+            $("#minerName").attr("href", "/explorer/address/"+res.minerAddress);
+            $("#tcount").html(res.transaction.length);
+            $("#difficulty").html(res.difficulty);
+            $("#markle").html(res.markle);
+            $("#size").html(res.block_size+" Byte");
+            $("#nonce").html(res.nonce);
+            $("#block_reward").html(res.block_reward);
+            $("#fee_reward").html(res.fee_reward);
+            
+            var trx ='';
+            $.each(res.transaction,function(key,value){     
+            trx += '<tr>';
+            trx += '<td>'+ '<a href='+"/explorer/trx/"+value.trxhash+'>'+ value.trxhash.substring(0, 20) +'...</a>' +'</td>';
+            trx += '<td>'+ value.amountin +'</td>';
+            if(value.from_address=="coinbase"){
+                trx += '<td>'+ "COINBASE (Newly Generated Coins)" +'</td>';
+            }else{
+                trx += '<td>'+ '<a href='+"/explorer/address/"+value.from_address+'>'+ value.from_address+'</a>' +'</td>';
+            }
+            trx += '<td>'+ '<a href='+"/explorer/address/"+value.to_address+'>'+ value.to_address +'</a>' +'</td>';
+            trx += '<td>'+ value.fee +'</td>';
+            trx += '<td>'+ value.blocktime +'</td>';
+            trx += '</tr>';      
+            });
+
+            $("#trxTable").append(trx);
+        $("#loaderDiv").hide();
+        $("#blockhis").show();
+        }
+});
+
+}
+
+</script>
+
+<div class="container mt-3">
+  
+  <div style="display: none;" id="blockhis">
+    <h3>Block #<span id="tblock"></span> Information </h3>
+    <div class="row">
+        
+          <ul class="list-group" style="display: inline-block;overflow: hidden; ">
+            <li class="list-group-item">
+              <div class="row">
+                  <div class="col-md-4">
+                     Hash
+                  </div>
+                  <div class="col-md-8" id="hash">
+                      
+                </div>
+              </div>
+            </li>
+            <li class="list-group-item">
+                <div class="row">
+                    <div class="col-md-4">
+                       Parent Hash
+                    </div>
+                    <div class="col-md-8" id="prevhash">
+                        
+                  </div>
+                </div>
+              </li>
+            <li class="list-group-item">
+                <div class="row">
+                    <div class="col-md-4">
+                        Confirmations
+                    </div>
+                    <div class="col-md-8" id="confirm">
+                        
+                  </div>
+                </div>
+              </li>
+              <li class="list-group-item">
+                <div class="row">
+                    <div class="col-md-4">
+                        Timestamp
+                    </div>
+                    <div class="col-md-8" id="tstamp">
+                        
+                  </div>
+                </div>
+              </li>
+              <li class="list-group-item">
+                <div class="row">
+                    <div class="col-md-4">
+                        Height
+                    </div>
+                    <div class="col-md-8" id="block_index">
+                        
+                  </div>
+                </div>
+              </li>
+              <li class="list-group-item">
+                <div class="row">
+                    <div class="col-md-4">
+                        Miner
+                    </div>
+                    <div class="col-md-8" >
+                        <a id="minerName" href=""></a>
+                  </div>
+                </div>
+              </li>
+              <li class="list-group-item">
+                <div class="row">
+                    <div class="col-md-4">
+                        Number of Transactions
+                    </div>
+                    <div class="col-md-8" id="tcount">
+                        
+                  </div>
+                </div>
+              </li>
+              <li class="list-group-item">
+                <div class="row">
+                    <div class="col-md-4">
+                        Difficulty
+                    </div>
+                    <div class="col-md-8" id="difficulty">
+                        
+                  </div>
+                </div>
+              </li>
+              <li class="list-group-item">
+                <div class="row">
+                    <div class="col-md-4">
+                        Merkle root
+                    </div>
+                    <div class="col-md-8" id="markle">
+                        
+                  </div>
+                </div>
+              </li>
+              <li class="list-group-item">
+                <div class="row">
+                    <div class="col-md-4">
+                        Size
+                    </div>
+                    <div class="col-md-8" id="size">
+                        
+                  </div>
+                </div>
+              </li>
+              <li class="list-group-item">
+                <div class="row">
+                    <div class="col-md-4">
+                        Nonce
+                    </div>
+                    <div class="col-md-8" id="nonce">
+                        
+                  </div>
+                </div>
+              </li>
+              <li class="list-group-item">
+                <div class="row">
+                    <div class="col-md-4">
+                        Block Reward
+                    </div>
+                    <div class="col-md-8" id="block_reward">
+                        
+                  </div>
+                </div>
+              </li>
+              <li class="list-group-item">
+                <div class="row">
+                    <div class="col-md-4">
+                        Fee Reward
+                    </div>
+                    <div class="col-md-8" id="fee_reward">
+                        
+                  </div>
+                </div>
+              </li>
+
+        </ul>
+           <div class="table-responsive" >
+            <h3 class="mt-5">Block Transactions </h3>
+            <table class="table mb-5" id="trxTable">
+                <tr>
+                  <th>Trx Hash</th>
+                  <th>Amount Transacted</th>
+                  <th>From</th>
+                  <th>To</th>
+                  <th>Txn Fee</th>
+                  <th>Time UTC </th>
+                </tr>
+            </table>
+           </div>
+           
+      </div>
+  </div>
+  <div class="d-flex justify-content-center" style="margin-bottom: 100px;">
+    <div id="loaderDiv" class="spinner-border text-danger  mt-5 mb-5 " role="status">
+        <span class="sr-only">Loading...</span>
+      </div>
+   </div>
+</div>
+
+
+<%- include("layout/footer") %>

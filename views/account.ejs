@@ -1,0 +1,241 @@
+<%- include("layout/header") %>
+    
+
+<script type="text/javascript" language="javascript" class="init">
+var address = window.sessionStorage.getItem('address');
+if(address==null){
+    window.location.href='/access/wallet';
+}
+
+$.ajax({
+        method:'GET',
+        url:'/api/addressinfo/'+address,
+        beforeSend: function() {
+        $("#loaderDiv").show();
+        },
+        success:function(res){
+            console.log(res);
+            $("#balance").html(res.balance);
+            window.sessionStorage.setItem('balance', res.balance);
+            $("#totalin").html(res.totalin);
+            $("#totalout").html(res.totalout);
+            $("#address").html(res.address);
+            $("#trxcount").html(res.transactions.length);
+            $("#alltrx").attr("href","/explorer/address/"+res.address);
+            if(res.transactions.length>10){
+              $("#alltrx").show();
+            }
+            var trx ='';
+            var countt=0;
+            $.each(res.transactions,function(key,value){   
+              countt+=1  
+          if(countt<=10){
+            trx += '<tr>';
+            trx += '<td>'+ '<a href='+"/explorer/trx/"+value.trxhash+'>'+ value.trxhash.substring(0, 20) +'...</a>' +'</td>';
+            if(address==value.from_address){
+                trx += '<td><p class="bg-danger text-white p-1 rounded">-'+ value.amountin +'</p></td>';
+            }else{
+                trx += '<td><p class="bg-success text-white p-1 rounded">+'+ value.amountout +'</p></td>';
+            }
+            
+            if(value.from_address=="coinbase"){
+                trx += '<td>'+ "COINBASE (Newly Generated Coins)" +'</td>';
+            }else{
+                trx += '<td>'+ '<a href='+"/explorer/address/"+value.from_address+'>'+ value.from_address.substring(0,20)+'...</a>' +'</td>';
+            }
+            trx += '<td>'+ '<a href='+"/explorer/address/"+value.to_address+'>'+ value.to_address.substring(0,20) +'...</a>' +'</td>';
+            trx += '<td>'+ value.fee +'</td>';
+            if(value.status==0){
+                trx += '<td >Pending</td>';
+            }else{
+                trx += '<td >Confirmed </td>';
+            }
+            trx += '<td>'+ value.blocktime +'</td>';
+            trx += '</tr>';      
+          }
+            }); 
+          
+
+            $("#trxTable").append(trx);
+          
+            $("#loaderDiv").hide();
+            $("#addresshis").show();
+        }
+});
+
+</script>
+
+<div class="d-flex justify-content-center" >
+  <div id="loaderDiv" class="spinner-border text-danger  mt-5 mb-5 " role="status">
+      <span class="sr-only">Loading...</span>
+    </div>
+ </div>
+
+<div class="container mt-5">
+  <div style="display: none;" id="addresshis">
+    <div class="row">
+            <ul class="list-group" style="display: inline-block;overflow: hidden; ">
+                <li class="list-group-item">
+                    <div class="row">
+                        <div class="col-md-4">
+                            Address
+                        </div>
+                        <script>
+                            $(document).ready(function(){
+                                $("#copy").click(function(){
+                                    var copyText = document.getElementById("address");
+                                    var textArea = document.createElement("textarea");
+                                    textArea.value = copyText.textContent;
+                                    document.body.appendChild(textArea);
+                                    textArea.select();
+                                    document.execCommand("Copy");
+                                    textArea.remove();
+                                });
+                           });
+                        </script>
+                        <div class="col-md-8" >
+                            <span id="address"></span> <i class="fa fa-copy" type="button" id="copy" style="cursor: pointer;"></i>
+                      </div>
+                    </div>
+                  </li>
+    
+                <li class="list-group-item">
+                    <div class="row">
+                        <div class="col-md-4">
+                           Total Received
+                        </div>
+                        <div class="col-md-8" id="totalin">
+                            
+                      </div>
+                    </div>
+                  </li>
+                <li class="list-group-item">
+                    <div class="row">
+                        <div class="col-md-4">
+                            Total Sent
+                        </div>
+                        <div class="col-md-8" id="totalout">
+                            
+                      </div>
+                    </div>
+                  </li>
+                  <li class="list-group-item">
+                    <div class="row">
+                        <div class="col-md-4">
+                            Total transactions
+                        </div>
+                        <div class="col-md-8" id="trxcount">
+                            
+                      </div>
+                    </div>
+                  </li>
+                  <li class="list-group-item">
+                    <div class="row">
+                        <div class="col-md-4">
+                          Final Balance
+                        </div>
+                        <div class="col-md-8" id="balance">
+                      </div>
+                    </div>
+                  </li>
+            </ul>
+            <div class="col-12 mt-3 mb-5 mt-5">
+              <ul class="nav nav-tabs" id="myTab" role="tablist">
+                  <li class=""><a class="nav-link active tab-ctive" href="#sendc" data-toggle="tab">Send Coin</a></li>
+                  <li class=""><a class="nav-link tab-ctive" href="#trx" data-toggle="tab">Transaction</a></li>
+               </ul>
+               
+               <div class="tab-content bg-light p-md-5">
+                  <div class="tab-pane active " id="sendc">
+                    <script>
+                      $(document).ready(function(){
+                         $("#sendb").click(function(){
+                            var privatekey = window.sessionStorage.getItem('privateKey');
+                            var bal = parseFloat(window.sessionStorage.getItem('balance'));
+                            var to_address = $("#addressin").val();
+                            var caddress = to_address.length;
+                            var amount = parseFloat($("#amountin").val());
+                            if(amount=="" || amount==0){
+                              $.notify("Amount is required", "warn");
+                            }else if(amount>bal){
+                              $.notify("Balance not enough", "warn");
+                            }else if(caddress<40){
+                              $.notify("Incorrect destination address", "warn");
+                            }else{
+                              $.ajax({
+                                method:'POST',
+                                url:'/api/addTransaction',
+                                dataType: "json",
+                                contentType: "application/json; charset=utf-8",
+                                data:JSON.stringify({key:privatekey,to_address:to_address,amount:amount}),
+                                success:function(res){
+                                  console.log(res)
+                                    $.notify(res.message, "success");
+                                    setTimeout(function(){
+                                      window.location.href='/account';
+                                    },2000);
+                                },
+                                error:function(res){
+                                  console.log(res)
+                                  $.notify(res.message, "error");
+                                }
+                            });
+                            }
+                         });
+                      });
+                    </script>
+                   <form>
+                    <div class="form-group row mb-3">
+                      <label class="col-md-1 col-form-label">Destination</label>
+                      <div class="col-md-7">
+                      <input type="text" class="form-control shadow-none" id="addressin" placeholder="Wallet Destination Address">
+                    </div>
+                  </div>
+                 <div class="form-group row mb-3">
+                  <label class="col-md-1 col-form-label">Amount</label>
+                  <div class="col-md-7">
+                  <input type="number" class="form-control shadow-none" id="amountin" placeholder="0.00000000">
+                  </div>
+                </div>
+
+              <div class="form-group row mb-3">
+                <div class="col-md-6"></div>
+                <div class="col-md-2">
+                  <button type="button" id="sendb" style="float: right;" class="btn btn-primary">Send Confirm</button>
+                </div>
+                           
+              </div>
+              </form>
+                    
+                  </div>
+                  <div class="tab-pane " id="trx">
+                     <div class="table-responsive">
+                      <table class="table mb-5" id="trxTable">
+                        <tr>
+                          <th>Trx Hash</th>
+                          <th>Amount Transacted</th>
+                          <th>From</th>
+                          <th>To</th>
+                          <th>Txn Fee</th>
+                          <th>Status</th>
+                          <th>Time UTC </th>
+                        </tr>
+                    </table>
+                    <a class="btn btn-primary" style="float: right;display: none;" target="blank" id="alltrx" href="/explorer/address/">View All Transaction</a>
+                  </div>
+               </div>
+          </div>
+           
+      </div>
+  </div>
+
+</div>
+
+<script>
+  $('.nav-tabs').click(function() {
+  $('.nav-tabs a.active').removeClass('active');
+  $(this).addClass('active');
+ });
+</script>
+
+<%- include("layout/footer") %>

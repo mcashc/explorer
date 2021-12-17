@@ -1,0 +1,242 @@
+<%- include("layout/header") %>
+    
+<script>
+  $.ajax({
+   method:'GET',
+   url:'/api/supply',
+   success:function(res){
+     $("#name").html(res.name);
+     $("#symbol").html(res.symbol);
+     $("#circulation").html(parseFloat(res.current_supply));
+     $("#maxsupply").html(res.max_supply);
+     $("#decimal").html(res.decimal);
+   }
+ });
+ 
+ $.ajax({
+   method:'GET',
+   url:'/api/blockHeight',
+   success:function(res){
+      $("#lastblock").html(res[0].height);
+   }
+ });
+
+ $.ajax({
+   method:'GET',
+   url:'/api/pendingTrx',
+   success:function(res){
+     console.log(res.length)
+      $("#pending").html(res.length);
+   }
+ });
+
+</script>
+
+<script>
+$(document).ready(function(){
+ $("#search").click(function(){
+   var val = $(".form-control").val();
+   if(val===""){
+     $.notify("Fill by any Value ", "warn");
+   }else{
+    const cval = val.length
+    if(cval<15){
+        window.location.href='/explorer/block/'+val;
+    }else if(cval==42){
+        window.location.href='/explorer/address/'+val;
+    }else if(cval==64){
+        window.location.href='/explorer/trx/'+val;
+    }else{
+      $.notify("Your Input is incorrect format ", "error");
+    }
+   }
+ });
+});
+</script>
+<div class="expback">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6">
+        <div class="input-group mb-5 mt-5 ">
+            <input type="text" id="svinput" class="form-control shadow-none" 
+            placeholder=" Search By Address / Txn Hash / Block "  
+            aria-describedby="basic-addon2">
+            <div class="input-group-append">
+              <button class="btn btn-primary" id="search" type="button">
+                <i class="fa fa-search"></i>
+              </button>
+            </div>
+        </div>
+      </div>
+
+        <div class="col-sm-12">
+          <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-sm-3 col-6 text-center">
+                        <i class="fas fa-signature"></i>
+                         <h6>Name</h6>
+                         <p id="name"></p>
+                    </div>
+                    <div class="col-sm-3 col-6 text-center">
+                        <i class="fab fa-steam-symbol"></i>
+                         <h6>Symbol</h6>
+                         <p id="symbol"></p>
+                    </div>
+                    <div class="col-sm-3 col-6 text-center">
+                      <i class="fas fa-calculator"></i>
+                       <h6>Decimal</h6>
+                       <p id="decimal">0</p>
+                  </div>
+                    <div class="col-sm-3 col-6 text-center">
+                        <i class="fas fa-sort-amount-up-alt"></i>
+                         <h6>Circulation</h6>
+                         <p id="circulation"></p>
+                    </div>
+                    <div class="col-sm-3 col-6 text-center">
+                        <i class="fas fa-check"></i>
+                         <h6>Max Supply</h6>
+                         <p id="maxsupply"></p>
+                    </div>
+                    <div class="col-sm-3 col-6 text-center">
+                        <i class="fas fa-book"></i>
+                         <h6>Last Block</h6>
+                         <p id="lastblock"></p>
+                    </div>
+                    <div class="col-sm-3 col-6 text-center">
+                        <i class="fas fa-universal-access"></i>
+                         <h6>Pending Transaction</h6>
+                         <a href="/explorer/pending/trx"><p id="pending">0</p></a>
+                    </div>
+                    <div class="col-sm-3 col-6 text-center">
+                      <i class="fas fa-universal-access"></i>
+                       <h6>Total txs</h6>
+                       <p id="totaltxs"></p>
+                  </div>
+
+                  </div>
+
+            </div>
+          </div>
+        </div>
+
+    </div>
+  </div>
+</div>
+
+<div class="container mt-3">
+    <div class="row">
+
+        <div class="col-12 mt-3 mb-5">
+            <ul class="nav nav-tabs" id="myTab" role="tablist">
+                <li class=""><a class="nav-link active tab-ctive" href="#block" data-toggle="tab">Block</a></li>
+                <li class=""><a class="nav-link tab-ctive" href="#trx" data-toggle="tab">Transaction</a></li>
+             </ul>
+             
+             <div class="tab-content bg-white py-3">
+                <div class="tab-pane active " id="block">
+                   <div class="table-responsive">
+                    <table class="table" id="blockTable">
+                        <tr>
+                          <th>Block Height</th>
+                          <th>Miner</th>
+                          <th>Transactions</th>
+                          <th>Hash</th>
+                          <th>Time UTC </th>
+                        </tr>
+                        <%/* %>
+                        <% blocks.map((result)=>{ %>
+                        <tr>
+                          <td> <a href="/explorer/block/<%= result.block_index %>"><%= result.block_index %></a> </td>
+                          <td> <a href="/explorer/address/<%= result.minerAddress %>"><%= result.minerAddress %></a></td>
+                          <td><%= result.transaction.length; %></td>
+                          <td><%= result.hash %></td>
+                          <td><time class="timeago"><%= result.tstamp %></time></td>
+                        </tr>
+                        <% }) %>
+                        <% */%>
+                    </table>
+                    <a class="btn btn-primary" style="float: right;" href="/explorer/blocks">View All Blocks</a>
+                   </div>
+                   <script>
+                    $.ajax({
+                     method:'GET',
+                     url:'/api/blocks',
+                     success:function(res){
+                       var blocks='';
+                       var count=0
+                       $.each(res,function(key,value){
+                            count +=1;
+                            if(count<=20){
+                              blocks += '<tr>';
+                            blocks += '<td>'+ '<a href='+"/explorer/block/"+value.block_index+'>'+ value.block_index +'</a>' +'</td>';
+                            blocks += '<td>'+ '<a href='+"/explorer/address/"+value.minerAddress+'>'+ value.minerAddress +'</a>' +'</td>';
+                            blocks += '<td>'+ value.transaction.length; +'</td>';
+                            blocks += '<td>'+ value.hash +'</td>';
+                            blocks += '<td>'+ value.tstamp +'</td>';
+                            blocks += '</tr>';
+                            }
+                       });
+                       $("#blockTable").append(blocks);
+                     }
+                   });
+                 </script>
+                </div>
+                <div class="tab-pane " id="trx">
+                   <div class="table-responsive">
+                    <table class="table" id="trxTable">
+                        <tr>
+                          <th>Hash ID</th>
+                          <th>Amount Transacted</th>
+                          <th>Txn Fee</th>
+                          <th>Time UTC </th>
+                        </tr>
+                    </table>
+                    <a class="btn btn-primary" style="float: right;" href="/explorer/txs">View All Transaction</a>
+                   </div>
+                   <script>
+                      $.ajax({
+                       method:'GET',
+                       url:'/api/trxs',
+                       beforeSend: function() {
+                       $("#loaderDiv").show();
+                      },
+                       success:function(res){
+                        $("#totaltxs").html(res.length);
+                        $("#loaderDiv").hide();
+                         var trx='';
+                         var count=0
+                         $.each(res,function(key,value){
+                              count +=1;
+                              if(count<=20){
+                                trx += '<tr>';
+                              trx += '<td>'+ '<a href='+"/explorer/trx/"+value.trxhash+'>'+ value.trxhash +'</a>' +'</td>';
+                              trx += '<td>'+ value.amountin +'</td>';
+                              trx += '<td>'+ value.fee +'</td>';
+                              trx += '<td>'+ value.blocktime +'</td>';
+                              trx += '</tr>';
+                              }
+                         });
+                         $("#trxTable").append(trx);
+                       }
+                     });
+                   </script>
+                </div>
+             </div>
+        </div>
+        <div class="d-flex justify-content-center">
+          <div id="loaderDiv" class="spinner-border text-danger mb-5 " role="status">
+              <span class="sr-only">Loading...</span>
+            </div>
+         </div>
+      </div>
+</div>
+
+<script>
+     $('.nav-tabs').click(function() {
+     $('.nav-tabs a.active').removeClass('active');
+     $(this).addClass('active');
+    });
+</script>
+
+<%- include("layout/footer") %>

@@ -1,0 +1,143 @@
+body {
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+
+}
+ 
+ .logo{
+   height: 30px;
+   width: 30px;
+ }
+ .navbar-brand{
+   font-weight: bold;
+   color: orange;
+ }
+ .navbar-brand:hover{
+   color: orange;
+ }
+ .navbar{
+   /*border-bottom: 1px solid rgb(190, 187, 187);*/
+   background-color: rgb(39, 48, 79)!important;
+ }
+ .navbar .nav-link{
+   color: white;
+ }
+
+.footer-copyright{
+
+  /*
+  background-color: white;
+  color: black;
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  */
+  background-color: white;
+  color: black;
+  text-align: center;
+  width: 100%;
+
+}
+
+.btn:focus,
+.btn:active:focus,
+.btn.active:focus,
+.btn.focus,
+.btn:active.focus,
+.btn.active.focus {
+  outline: none;
+  box-shadow: none;
+}
+.form-control{
+  outline: none;
+  box-shadow: none;
+}
+.fas{
+  color: rgb(27, 74, 151);
+  font-size: large;
+}
+.fab{
+  color: rgb(27, 74, 151);
+  font-size: large;
+}
+
+.menubtn{
+  display: none;
+}
+.nav-link{
+  color: black;
+  font-size: 16px;
+}
+.a:active{
+  color: green;
+}
+.nav-link:hover{
+  color: orange;
+}
+a{
+  color: rgb(27, 74, 151);
+  text-decoration: none;
+}
+a:hover{
+  color: rgb(51, 115, 219);
+}
+.navbar{
+  padding-left: 100px;
+  padding-right: 100px;
+}
+.extra{
+  height: 55px;
+  width: 100%;
+}
+p{
+  font-size: 16px;
+  font-family: Arial, Helvetica, sans-serif;
+}
+.homebanner{
+  width: 100%;
+  background-color: rgb(39, 48, 79);
+  height: 370px;
+  background-size: cover;
+  position: relative;
+}
+.expback{
+  width: 100%;
+  background-image: url("/images/blockchain.jpg");
+  background-color: rgb(241, 238, 238);
+  height: 370px;
+  background-size: cover;
+  position: relative;
+}
+.homebanner h2 {
+  text-align: left;
+  color: white;
+  font-size: 50px;
+  font-weight: bold;
+  padding-top: 50px;
+  padding-bottom: 10px;
+  padding-left: 100px;
+}
+.homebanner h3 {
+  text-align: left;
+  color: white;
+  padding-left: 100px;
+  margin-bottom: 60px;
+}
+.download{
+  margin-right: 100px;
+  margin-top: 10px;
+  float: right;
+  background-color: rgb(248, 209, 47);
+  border-color: rgb(248, 209, 47);
+  color: black;
+  height: 60px;
+}
+.downloada{
+  margin-right: 50px;
+  margin-top: 10px;
+  float: right;
+  background-color: rgb(248, 209, 47);
+  border-color: rgb(248, 209, 47);
+  color: black;
+  height: 60px;
+}

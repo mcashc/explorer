@@ -1,0 +1,63 @@
+<%- include("layout/header") %>
+    
+<script type="text/javascript" language="javascript" class="init">
+
+$.ajax({
+        method:'GET',
+        url:'/api/blocks',
+        beforeSend: function() {
+        $("#loaderDiv").show();
+        },
+        success:function(res){
+             allb(res);   
+            $("#loaderDiv").hide();
+        }
+});
+
+function allb(res=[]){
+    var blocks='';
+        $.each(res,function(key,value){    
+            blocks += '<tr>';
+            blocks += '<td>'+ '<a href='+"/explorer/block/"+value.block_index+'>'+ value.block_index +'</a>' +'</td>';
+            blocks += '<td>'+ '<a href='+"/explorer/address/"+value.minerAddress+'>'+ value.minerAddress +'</a>' +'</td>';
+            blocks += '<td>'+ value.transaction.length; +'</td>';
+            blocks += '<td>'+ value.hash +'</td>';
+            blocks += '<td>'+ value.fee_reward+'</td>';
+            blocks += '<td>'+ value.block_reward +'</td>';
+            blocks += '<td>'+ value.tstamp +'</td>';
+            blocks += '</tr>'; 
+        });
+        $("#allblocks").append(blocks);
+}
+
+</script>
+
+<div class="container mt-3">
+    <div class="row">
+        <h3>Blocks </h3>
+        <hr/>
+           <div class="table-responsive">
+            <table id="allblocks" class="table bg-light">
+                    <tr>
+                        <th>Block Height</th>
+                        <th>Miner</th>
+                        <th>Transactions</th>
+                        <th>Hash</th>
+                        <th>Fee</th>
+                        <th>Reward</th>
+                        <th>Time UTC </th>
+                      </tr>
+            </table>
+
+           </div>
+           
+           <div class="d-flex justify-content-center">
+            <div id="loaderDiv" class="spinner-border text-danger  mt-5 mb-5 " role="status">
+                <span class="sr-only">Loading...</span>
+              </div>
+           </div>
+      </div>
+</div>
+
+
+<%- include("layout/footer") %>

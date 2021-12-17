@@ -1,0 +1,184 @@
+<%- include("layout/header") %>
+<p id="hid" class="d-none"><%= hid %></p>
+<script >
+var hid = $("#hid").text();
+$.ajax({
+        method:'GET',
+        url:'/api/getTrxInfo/'+hid,
+        beforeSend: function() {
+        $("#loaderDiv").show();
+        $("#txshis").hide();
+        },
+        success:function(res){
+            console.log(res)
+            $("#hash").html(res.trxhash);
+            $("#confirm").html(res.confirmation+" Blocks");
+            $("#btime").html(res.blocktime);
+            $("#ttime").html(res.trxtime);
+            $("#block_index").html(res.block_index);
+            $("#size").html(res.sizeof+" Byte");
+            $("#fee").html(res.fee);
+            $("#from_address").html(res.from_address);
+            $("#to_address").html(res.to_address);
+            $("#amountin").html(res.amountin);
+            $("#amountout").html(res.amountout);
+            if(res.status==0){
+                $("#status").html("Pending");
+                $("#status").css('color', 'red');
+            }
+            if(res.status==1){
+                $("#status").html("Success");
+                $("#status").css('color', 'green');
+            }
+      
+            $("#loaderDiv").hide();
+            $("#txshis").show();
+        }
+});
+
+
+</script>
+
+<div class="container mt-3 mb-5">
+    <div id="txshis" style="display: none;">
+        <div class="row">
+            <h3>Transaction Details </h3>
+            <ul class="list-group mb-5" style="display: inline-block;overflow: hidden;">
+                <li class="list-group-item">
+                  <div class="row">
+                      <div class="col-md-4">
+                         Hash
+                      </div>
+                      <div class="col-md-8" id="hash">
+                          
+                    </div>
+                  </div>
+                </li>
+                <li class="list-group-item">
+                    <div class="row">
+                        <div class="col-md-4">
+                            Confirmations
+                        </div>
+                        <div class="col-md-8" id="confirm">
+                            
+                      </div>
+                    </div>
+                  </li>
+                  <li class="list-group-item">
+                    <div class="row">
+                        <div class="col-md-4">
+                            Trx Time
+                        </div>
+                        <div class="col-md-8" id="ttime">
+                            
+                      </div>
+                    </div>
+                  </li>
+                  <li class="list-group-item">
+                    <div class="row">
+                        <div class="col-md-4">
+                            Block Time
+                        </div>
+                        <div class="col-md-8" id="btime">
+                            
+                      </div>
+                    </div>
+                  </li>
+                  <li class="list-group-item">
+                    <div class="row">
+                        <div class="col-md-4">
+                            Block Include
+                        </div>
+                        <div class="col-md-8" id="block_index">
+                            
+                      </div>
+                    </div>
+                  </li>
+    
+                  <li class="list-group-item">
+                    <div class="row">
+                        <div class="col-md-4">
+                            Size
+                        </div>
+                        <div class="col-md-8" id="size">
+                            
+                      </div>
+                    </div>
+                  </li>
+    
+                  <li class="list-group-item">
+                    <div class="row">
+                        <div class="col-md-4">
+                            From
+                        </div>
+                        <div class="col-md-8" id="from_address">
+                            
+                      </div>
+                    </div>
+                  </li>
+                  <li class="list-group-item">
+                    <div class="row">
+                        <div class="col-md-4">
+                            Amount In
+                        </div>
+                        <div class="col-md-8" id="amountin">
+                            
+                      </div>
+                    </div>
+                  </li>
+    
+                  <li class="list-group-item">
+                    <div class="row">
+                        <div class="col-md-4">
+                            To
+                        </div>
+                        <div class="col-md-8" id="to_address">
+                            
+                      </div>
+                    </div>
+                  </li>
+                  <li class="list-group-item">
+                    <div class="row">
+                        <div class="col-md-4">
+                            Amount Out
+                        </div>
+                        <div class="col-md-8" id="amountout">
+                            
+                      </div>
+                    </div>
+                  </li>
+    
+                  <li class="list-group-item">
+                    <div class="row">
+                        <div class="col-md-4">
+                            Transaction  Fee 
+                        </div>
+                        <div class="col-md-8" id="fee">
+                            
+                      </div>
+                    </div>
+                  </li>
+                  <li class="list-group-item">
+                    <div class="row">
+                        <div class="col-md-4">
+                            Status
+                        </div>
+                        <div class="col-md-8" id="status">
+    
+                      </div>
+                    </div>
+                  </li>
+    
+            </ul>
+               
+          </div>
+    </div>
+      <div class="d-flex justify-content-center" style="margin-bottom: 150px;">
+        <div id="loaderDiv" class="spinner-border text-danger  mt-5 mb-5 "  role="status">
+            <span class="sr-only">Loading...</span>
+          </div>
+       </div>
+</div>
+
+
+<%- include("layout/footer") %>
