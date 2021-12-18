@@ -5,7 +5,7 @@ console.log("Local IP : ",ipa);
 
 var options = {
     port: 9091,
-    host: '172.24.16.1',
+    host: '192.168.0.104',
     //host:ipa,
     path: '/',
     strict: true
