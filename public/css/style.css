@@ -9,10 +9,10 @@ body {
  }
  .navbar-brand{
    font-weight: bold;
-   color: orange;
+   color: white;
  }
  .navbar-brand:hover{
-   color: orange;
+   color: white;
  }
  .navbar{
    /*border-bottom: 1px solid rgb(190, 187, 187);*/
