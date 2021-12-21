@@ -1,127 +1,184 @@
 <%- include("layout/header") %>
     
 <p id="address" class="d-none"><%=address %></p>
-<script type="text/javascript" language="javascript" class="init">
-var address = $("#address").text();
-$.ajax({
-        method:'GET',
-        url:'/api/addressinfo/'+address,
-        beforeSend: function() {
-        $("#loaderDiv").show();
-        },
-        success:function(res){
-            $("#balance").html(res.balance);
-            $("#totalin").html(res.totalin);
-            $("#totalout").html(res.totalout);
-            $("#trxcount").html(res.transactions.length);
-            var trx ='';
-            $.each(res.transactions,function(key,value){    
-              var localTime  = moment.utc(value.blocktime).toDate(); 
-            trx += '<tr>';
-            trx += '<td>'+ '<a href='+"/explorer/trx/"+value.trxhash+'>'+ value.trxhash.substring(0, 20) +'...</a>' +'</td>';
-            if(address==value.from_address){
-                trx += '<td><p class="bg-danger text-white p-1 rounded">-'+ value.amountin +'</p></td>';
-            }else{
-                trx += '<td><p class="bg-success text-white p-1 rounded">+'+ value.amountout +'</p></td>';
-            }
-            
-            if(value.from_address=="coinbase"){
-                trx += '<td>'+ "COINBASE (Newly Generated Coins)" +'</td>';
-            }else{
-                trx += '<td>'+ '<a href='+"/explorer/address/"+value.from_address+'>'+ value.from_address.substring(0,20)+'...</a>' +'</td>';
-            }
-            trx += '<td>'+ '<a href='+"/explorer/address/"+value.to_address+'>'+ value.to_address.substring(0,20) +'...</a>' +'</td>';
-            trx += '<td>'+ value.fee +'</td>';
-            if(value.status==0){
-                trx += '<td > Pending</td>';
-            }else{
-                trx += '<td >Confirmed</td>';
-            }
-            trx += '<td>'+ moment(localTime).fromNow() +'</td>';
-            trx += '</tr>';      
-            });
-
-            $("#trxTable").append(trx);
-            $("#loaderDiv").hide();
-            $("#addresshis").show();
-        }
-});
-
-</script>
 
 <div class="container mt-5">
-  <div style="display: none;" id="addresshis">
-    <div class="row">
-            <ul class="list-group" style="display: inline-block;overflow: hidden; ">
-                <li class="list-group-item">
-                    <div class="row">
-                        <div class="col-md-4">
-                            Address
-                        </div>
-                        <script>
-                            $(document).ready(function(){
-                                $("#copy").click(function(){
-                                    var copyText = document.getElementById("address");
-                                    var textArea = document.createElement("textarea");
-                                    textArea.value = copyText.textContent;
-                                    document.body.appendChild(textArea);
-                                    textArea.select();
-                                    document.execCommand("Copy");
-                                    $.notify("Address Copied", "success");
-                                    textArea.remove();
-                                });
-                           });
-                        </script>
-                        <div class="col-md-8" >
-                            <span id="address"><%=address %></span> <i class="fa fa-copy" type="button" id="copy" style="cursor: pointer;"></i>
-                      </div>
-                    </div>
-                  </li>
-    
-                <li class="list-group-item">
-                    <div class="row">
-                        <div class="col-md-4">
-                           Total Received
-                        </div>
-                        <div class="col-md-8" id="totalin">
-                            
-                      </div>
-                    </div>
-                  </li>
-                <li class="list-group-item">
-                    <div class="row">
-                        <div class="col-md-4">
-                            Total Sent
-                        </div>
-                        <div class="col-md-8" id="totalout">
-                            
-                      </div>
-                    </div>
-                  </li>
-                  <li class="list-group-item">
-                    <div class="row">
-                        <div class="col-md-4">
-                            Total transactions
-                        </div>
-                        <div class="col-md-8" id="trxcount">
-                            
-                      </div>
-                    </div>
-                  </li>
-                  <li class="list-group-item">
-                    <div class="row">
-                        <div class="col-md-4">
-                          Final Balance
-                        </div>
-                        <div class="col-md-8" id="balance">
-                            
-                      </div>
-                    </div>
-                  </li>
-            </ul>
-           <div class="table-responsive" >
-            <h3 class="mt-5">Transactions </h3>
-            <table class="table mb-5" id="trxTable">
+  <script>
+    $(document).ready(function(){
+        $("#copy").click(function(){
+            var copyText = document.getElementById("address");
+            var textArea = document.createElement("textarea");
+            textArea.value = copyText.textContent;
+            document.body.appendChild(textArea);
+            textArea.select();
+            document.execCommand("Copy");
+            $.notify("Address Copied", "success");
+            textArea.remove();
+        });
+   });
+  </script>
+
+<script type="text/javascript" language="javascript" class="init">
+  var address = $("#address").text();
+  $.ajax({
+          method:'GET',
+          url:'/api/addressinfo/'+address,
+          beforeSend: function() {
+          $("#loaderDiv").show();
+          },
+          success:function(res){
+              $("#balance").html(res.balance);
+              $("#totalin").html(res.totalin);
+              $("#totalout").html(res.totalout);
+              $("#trxcount").html(res.transactions.length)
+          }
+  });
+  </script>
+
+  <div class="row">
+    <ul class="list-group" style="display: inline-block;overflow: hidden; ">
+      <li class="list-group-item">
+          <div class="row">
+              <div class="col-md-4">
+                  Address
+              </div>
+              <script>
+                  $(document).ready(function(){
+                      $("#copy").click(function(){
+                          var copyText = document.getElementById("address");
+                          var textArea = document.createElement("textarea");
+                          textArea.value = copyText.textContent;
+                          document.body.appendChild(textArea);
+                          textArea.select();
+                          document.execCommand("Copy");
+                          $.notify("Address Copied", "success");
+                          textArea.remove();
+                      });
+                 });
+              </script>
+              <div class="col-md-8" >
+                  <span id="address"><%=address %></span> <i class="fa fa-copy" type="button" id="copy" style="cursor: pointer;"></i>
+            </div>
+          </div>
+        </li>
+
+      <li class="list-group-item">
+          <div class="row">
+              <div class="col-md-4">
+                 Total Received
+              </div>
+              <div class="col-md-8" id="totalin">
+                  
+            </div>
+          </div>
+        </li>
+      <li class="list-group-item">
+          <div class="row">
+              <div class="col-md-4">
+                  Total Sent
+              </div>
+              <div class="col-md-8" id="totalout">
+                  
+            </div>
+          </div>
+        </li>
+        <li class="list-group-item">
+          <div class="row">
+              <div class="col-md-4">
+                  Total transactions
+              </div>
+              <div class="col-md-8" id="trxcount">
+                  
+            </div>
+          </div>
+        </li>
+        <li class="list-group-item">
+          <div class="row">
+              <div class="col-md-4">
+                Final Balance
+              </div>
+              <div class="col-md-8" id="balance">
+                  
+            </div>
+          </div>
+        </li>
+  </ul>
+  </div>
+  <script type="text/babel">
+    var address = $("#address").text();
+    class App extends React.Component{
+        constructor(props) {
+            super(props);
+            this.state={
+                data:[],
+                countt:20,
+                balance:0,totalin:0,totalout:0,address:'',
+                loader:true
+            }
+        }
+        componentDidMount() {
+            const config = {headers : {'content-type':'multipart/form-data'}}
+            axios.get("/api/addressinfo/"+address,config)
+            .then(res=>{
+                console.log(res.data)
+                this.setState({data:res.data["transactions"],
+                balance:res.data["balance"],
+                totalin:res.data["totalin"],
+                totalout:res.data["totalout"],
+                address:res.data["address"],
+                loader:false})
+                console.log(address)
+            })
+            .catch(error=>{
+                console.log(error)
+            })
+        }
+
+        loadMore=()=>{
+          const ct = parseFloat(this.state.countt)+50
+          this.setState({countt:ct})
+          console.log(ct)
+        }
+
+        render(){
+            var icount=0
+            const trxlist = this.state.data.map(value=>{
+                icount+=1
+                if(icount<=this.state.countt){
+                       var localTime  = moment.utc(value.blocktime).toDate();
+                       return(
+                           <tr>
+                            <td><a href={"/explorer/trx/"+value.trxhash}>{value.trxhash.substring(0, 20)}...</a></td>
+                            {address==value.from_address ?
+                                 <td><p className="bg-danger text-white p-1 rounded"> {value.amountin }</p></td>
+                                 :
+                                   <td><p className="bg-success text-white p-1 rounded">{value.amountout }</p></td>
+                                }
+                            {value.from_address=="coinbase" ?
+                                <td>COINBASE (Newly Generated Coins)</td>
+                                :
+                                <td><a href={"/explorer/address/"+value.from_address}>{value.from_address.substring(0, 20)}...</a></td>
+                            }
+                            <td><a href={"/explorer/address/"+value.to_address}>{value.to_address.substring(0, 20)}...</a></td>
+                            <td>{value.fee}</td>
+                            {value.status==0 ?
+                                <td > Pending</td>
+                                :
+                                <td >Confirmed</td>
+                              }
+                            <td>{moment(localTime).fromNow()}</td>
+                           </tr>
+                       )
+                        }
+                    })
+                
+            return(
+                <React.Fragment>
+                  <div className="row">
+            <div className="table-responsive" >
+            <h3 className="mt-5">Transactions </h3>
+            <table className="table mb-5" id="trxTable">
+              <thead>
                 <tr>
                   <th>Trx Hash</th>
                   <th>Amount Transacted</th>
@@ -131,16 +188,34 @@ $.ajax({
                   <th>Status</th>
                   <th>Time UTC </th>
                 </tr>
+                </thead>
+                <tbody>
+                {trxlist}
+                </tbody>
+       
+
             </table>
+            <button className="btn btn-primary" onClick={this.loadMore.bind()} style={{float:"right"}}>Load More</button>
            </div>
-           
       </div>
-  </div>
-  <div class="d-flex justify-content-center" style="margin-bottom: 100px;">
-    <div id="loaderDiv" class="spinner-border text-danger  mt-5 mb-5 " role="status">
-        <span class="sr-only">Loading...</span>
-      </div>
-   </div>
+  
+                  <div className="d-flex justify-content-center">
+                    {this.state.loader==true?<div id="loaderDiv" className="spinner-border text-danger  mt-5 mb-5 " role="status">
+                        <span className="sr-only">Loading...</span>
+                    </div>:
+                   ""
+                  }
+                 </div>   
+                </React.Fragment>
+            )
+        }
+
+    }
+
+    ReactDOM.render(<App/>,document.getElementById('app'));
+</script>
+<div id="app"></div>
+
 </div>
 
 

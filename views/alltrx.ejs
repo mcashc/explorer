@@ -1,63 +1,98 @@
 <%- include("layout/header") %>
     
-<script type="text/javascript" language="javascript" class="init">
-
-
-$.ajax({
-        method:'GET',
-        url:'/api/trxs',
-        beforeSend: function() {
-        $("#loaderDiv").show();
-        },
-        success:function(res){
-        var trx='';
-        $.each(res,function(key,value){     
-            var localTime  = moment.utc(value.blocktime).toDate();
-            trx += '<tr>';
-            trx += '<td>'+ '<a href='+"/explorer/trx/"+value.trxhash+'>'+ value.trxhash.substring(0, 20) +'...</a>' +'</td>';
-            trx += '<td>'+ '<a href='+"/explorer/block/"+value.block_index+'>'+ value.block_index +'</a>' +'</td>';
-            trx += '<td>'+ value.amountin +'</td>';
-            if(value.from_address=="coinbase"){
-                trx += '<td>'+ "COINBASE (Newly Generated Coins)" +'</td>';
-            }else{
-                trx += '<td>'+ '<a href='+"/explorer/address/"+value.from_address+'>'+ value.from_address.substring(0, 20)+'...</a>' +'</td>';
-            }
-            trx += '<td>'+ '<a href='+"/explorer/address/"+value.to_address+'>'+ value.to_address.substring(0, 20) +'...</a>' +'</td>';
-            trx += '<td>'+ value.fee +'</td>';
-            trx += '<td>'+ moment(localTime).fromNow() +'</td>';
-            trx += '</tr>';      
-            });
-            $("#trxTable").append(trx);
-            $("#loaderDiv").hide();
-        }
-});
-
-
-</script>
 
 <div class="container mt-3">
     <div class="row">
-        <h3>Transactions </h3>
-        <hr/>
-           <div class="table-responsive">
-            <table class="table" id="trxTable">
-                <tr>
-                  <th>Hash ID</th>
-                  <th>Block</th>
-                  <th>Amount Transacted</th>
-                  <th>From</th>
-                  <th>To</th>
-                  <th>Txn Fee</th>
-                  <th>Time UTC </th>
-                </tr>
-            </table>
-           </div>
-           
-           <div class="d-flex justify-content-center">
-            <div id="loaderDiv" class="spinner-border text-danger  mt-5 mb-5 " role="status">
-                <span class="sr-only">Loading...</span>
-              </div>
-           </div>
+        <script type="text/babel">
+            class App extends React.Component{
+                constructor(props) {
+                    super(props);
+                    this.state={
+                        data:[],
+                        countt:50,
+                        loader:true
+                    }
+                }
+                componentDidMount() {
+                    const myFormData = new FormData()
+                    const config = {headers : {'content-type':'multipart/form-data'}}
+                    axios.get("/api/trxs",config)
+                    .then(res=>{
+                        this.setState({data:res.data,loader:false})
+                    })
+                    .catch(error=>{
+                        console.log(error)
+                    })
+                }
+
+                loadMore=()=>{
+                  const ct = parseFloat(this.state.countt)+50
+                  this.setState({countt:ct})
+                  console.log(ct)
+                }
+
+                render(){
+                    var icount=0
+                    const block = this.state.data.map(value=>{
+                        icount+=1
+                        if(icount<=this.state.countt){
+                               var localTime  = moment.utc(value.blocktime).toDate();
+                               return(
+                                   <tr>
+                                    <td><a href={"/explorer/trx/"+value.trxhash}>{value.trxhash.substring(0, 20)}...</a></td>
+                                    <td><a href={"/explorer/block/"+value.block_index}>{value.block_index}</a></td>
+                                    <td>{value.amountin}</td>
+                                    {value.from_address=="coinbase" ?
+                                        <td>COINBASE (Newly Generated Coins)</td>
+                                        :
+                                        <td><a href={"/explorer/address/"+value.from_address}>{value.from_address.substring(0, 20)}...</a></td>
+                                    }
+                                    <td><a href={"/explorer/address/"+value.to_address}>{value.to_address.substring(0, 20)}...</a></td>
+                                    <td>{value.fee}</td>
+                                    <td>{moment(localTime).fromNow()}</td>
+                                   </tr>
+                               )
+                                }
+                            })
+                        
+                    return(
+                        <React.Fragment>
+                            <h3>Transactions </h3>
+                            <hr/>
+                            <div className="table-responsive">
+                            <table id="allblocks" className="table">
+                            <thead>
+                                <tr>
+                                   <th>Hash ID</th>
+                                   <th>Block</th>
+                                   <th>Amount Transacted</th>
+                                   <th>From</th>
+                                   <th>To</th>
+                                   <th>Txn Fee</th>
+                                   <th>Time UTC </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            {block}
+                            </tbody>
+                            </table>
+                            <button className="btn btn-primary" onClick={this.loadMore.bind()} style={{float:"right"}}>Load More</button>
+                            </div>
+               
+                          <div className="d-flex justify-content-center">
+                            {this.state.loader==true?<div id="loaderDiv" className="spinner-border text-danger  mt-5 mb-5 " role="status">
+                                <span className="sr-only">Loading...</span>
+                            </div>:""}
+                         </div>   
+                        </React.Fragment>
+                    )
+                }
+    
+            }
+    
+            ReactDOM.render(<App/>,document.getElementById('app'));
+        </script>
+        <div id="app"></div>           
       </div>
 </div>
 
