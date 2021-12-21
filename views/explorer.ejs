@@ -212,7 +212,7 @@ $(document).ready(function(){
                               count +=1;
                               if(count<=20){
                                 trx += '<tr>';
-                              trx += '<td>'+ '<a href='+"/explorer/trx/"+value.trxhash.substring(0,40)+'>'+ value.trxhash +'...</a>' +'</td>';
+                              trx += '<td>'+ '<a href='+"/explorer/trx/"+value.trxhash+'>'+ value.trxhash.substring(0,40) +'...</a>' +'</td>';
                               trx += '<td>'+ value.amountin +'</td>';
                               trx += '<td>'+ value.fee +'</td>';
                               trx += '<td>'+  moment(localTime).fromNow() +'</td>';

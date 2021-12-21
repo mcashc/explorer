@@ -49,8 +49,22 @@ $.ajax({
                       <div class="col-md-4">
                          Hash
                       </div>
-                      <div class="col-md-8" id="hash">
-                          
+                      <div class="col-md-8">
+                        <script>
+                          $(document).ready(function(){
+                              $("#copy").click(function(){
+                                  var copyText = document.getElementById("hash");
+                                  var textArea = document.createElement("textarea");
+                                  textArea.value = copyText.textContent;
+                                  document.body.appendChild(textArea);
+                                  textArea.select();
+                                  document.execCommand("Copy");
+                                  $.notify("Transaction Hash Copied", "success");
+                                  textArea.remove();
+                              });
+                         });
+                      </script>
+                      <span id="hash"></span>  <i class="fa fa-copy" type="button" id="copy" style="cursor: pointer;"></i>
                     </div>
                   </div>
                 </li>
@@ -111,8 +125,22 @@ $.ajax({
                         <div class="col-md-4">
                             From
                         </div>
-                        <div class="col-md-8" id="from_address">
-                            
+                        <div class="col-md-8" >
+                          <script>
+                            $(document).ready(function(){
+                                $("#copy1").click(function(){
+                                    var copyText = document.getElementById("from_address");
+                                    var textArea = document.createElement("textarea");
+                                    textArea.value = copyText.textContent;
+                                    document.body.appendChild(textArea);
+                                    textArea.select();
+                                    document.execCommand("Copy");
+                                    $.notify("From address Copied", "success");
+                                    textArea.remove();
+                                });
+                           });
+                        </script>
+                        <span id="from_address"></span>  <i class="fa fa-copy" type="button" id="copy1" style="cursor: pointer;"></i>
                       </div>
                     </div>
                   </li>
@@ -132,8 +160,22 @@ $.ajax({
                         <div class="col-md-4">
                             To
                         </div>
-                        <div class="col-md-8" id="to_address">
-                            
+                        <div class="col-md-8" >
+                          <script>
+                            $(document).ready(function(){
+                                $("#copy2").click(function(){
+                                    var copyText = document.getElementById("to_address");
+                                    var textArea = document.createElement("textarea");
+                                    textArea.value = copyText.textContent;
+                                    document.body.appendChild(textArea);
+                                    textArea.select();
+                                    document.execCommand("Copy");
+                                    $.notify("To address Copied", "success");
+                                    textArea.remove();
+                                });
+                           });
+                        </script>
+                        <span id="to_address"></span>  <i class="fa fa-copy" type="button" id="copy2" style="cursor: pointer;"></i>
                       </div>
                     </div>
                   </li>

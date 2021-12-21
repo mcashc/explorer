@@ -90,6 +90,7 @@ $.ajax({
                                     document.body.appendChild(textArea);
                                     textArea.select();
                                     document.execCommand("Copy");
+                                    $.notify("Address Copied", "success");
                                     textArea.remove();
                                 });
                            });

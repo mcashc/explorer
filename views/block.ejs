@@ -114,8 +114,22 @@ if(bcountl>55){
                   <div class="col-md-4">
                      Hash
                   </div>
-                  <div class="col-md-8" id="hash">
-                      
+                  <div class="col-md-8" >
+                    <script>
+                      $(document).ready(function(){
+                          $("#copy").click(function(){
+                              var copyText = document.getElementById("hash");
+                              var textArea = document.createElement("textarea");
+                              textArea.value = copyText.textContent;
+                              document.body.appendChild(textArea);
+                              textArea.select();
+                              document.execCommand("Copy");
+                              $.notify("Block Hash Copied", "success");
+                              textArea.remove();
+                          });
+                     });
+                  </script>
+                  <span id="hash"></span>  <i class="fa fa-copy" type="button" id="copy" style="cursor: pointer;"></i>
                 </div>
               </div>
             </li>
@@ -165,7 +179,21 @@ if(bcountl>55){
                         Miner
                     </div>
                     <div class="col-md-8" >
-                        <a id="minerName" href=""></a>
+                      <script>
+                        $(document).ready(function(){
+                            $("#copy1").click(function(){
+                                var copyText = document.getElementById("minerName");
+                                var textArea = document.createElement("textarea");
+                                textArea.value = copyText.textContent;
+                                document.body.appendChild(textArea);
+                                textArea.select();
+                                document.execCommand("Copy");
+                                $.notify("Miner Address Copied", "success");
+                                textArea.remove();
+                            });
+                       });
+                    </script>
+                        <a id="minerName" href=""></a> <i class="fa fa-copy" type="button" id="copy1" style="cursor: pointer;"></i>
                   </div>
                 </div>
               </li>
