@@ -13,9 +13,9 @@ $.ajax({
             console.log(res)
             $("#hash").html(res.trxhash);
             $("#confirm").html(res.confirmation+" Blocks");
-            $("#btime").html(res.blocktime);
-            $("#ttime").html(res.trxtime);
-            $("#block_index").html(res.block_index);
+            $("#btime").html(res.blocktime+" UTC TIME");
+            $("#ttime").html(res.trxtime+" UTC TIME");
+            $("#block_index").html(res.block_index+" Block Index");
             $("#size").html(res.sizeof+" Byte");
             $("#fee").html(res.fee);
             $("#from_address").html(res.from_address);
@@ -87,7 +87,7 @@ $.ajax({
                   <li class="list-group-item">
                     <div class="row">
                         <div class="col-md-4">
-                            Block Include
+                            Block Included
                         </div>
                         <div class="col-md-8" id="block_index">
                             
