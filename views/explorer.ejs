@@ -172,7 +172,7 @@ $(document).ready(function(){
                             blocks += '<td>'+ '<a href='+"/explorer/block/"+value.block_index+'>'+ value.block_index +'</a>' +'</td>';
                             blocks += '<td>'+ '<a href='+"/explorer/address/"+value.minerAddress+'>'+ value.minerAddress +'</a>' +'</td>';
                             blocks += '<td>'+ value.transaction.length; +'</td>';
-                            blocks += '<td>'+ value.hash +'</td>';
+                            blocks += '<td>'+ value.hash.substring(0,40) +'...</td>';
                             blocks += '<td>'+ value.tstamp +'</td>';
                             blocks += '</tr>';
                             }
@@ -210,7 +210,7 @@ $(document).ready(function(){
                               count +=1;
                               if(count<=20){
                                 trx += '<tr>';
-                              trx += '<td>'+ '<a href='+"/explorer/trx/"+value.trxhash+'>'+ value.trxhash +'</a>' +'</td>';
+                              trx += '<td>'+ '<a href='+"/explorer/trx/"+value.trxhash.substring(0,40)+'>'+ value.trxhash +'...</a>' +'</td>';
                               trx += '<td>'+ value.amountin +'</td>';
                               trx += '<td>'+ value.fee +'</td>';
                               trx += '<td>'+ value.blocktime +'</td>';
