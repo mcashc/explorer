@@ -15,7 +15,8 @@ $.ajax({
             $("#totalout").html(res.totalout);
             $("#trxcount").html(res.transactions.length);
             var trx ='';
-            $.each(res.transactions,function(key,value){     
+            $.each(res.transactions,function(key,value){    
+              var localTime  = moment.utc(value.blocktime).toDate(); 
             trx += '<tr>';
             trx += '<td>'+ '<a href='+"/explorer/trx/"+value.trxhash+'>'+ value.trxhash.substring(0, 20) +'...</a>' +'</td>';
             if(address==value.from_address){
@@ -36,7 +37,7 @@ $.ajax({
             }else{
                 trx += '<td >Confirmed</td>';
             }
-            trx += '<td>'+ value.blocktime +'</td>';
+            trx += '<td>'+ moment(localTime).fromNow() +'</td>';
             trx += '</tr>';      
             });
 

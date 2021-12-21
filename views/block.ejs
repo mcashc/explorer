@@ -77,6 +77,7 @@ if(bcountl>55){
             
             var trx ='';
             $.each(res.transaction,function(key,value){     
+            var localTime  = moment.utc(value.blocktime).toDate();
             trx += '<tr>';
             trx += '<td>'+ '<a href='+"/explorer/trx/"+value.trxhash+'>'+ value.trxhash.substring(0, 20) +'...</a>' +'</td>';
             trx += '<td>'+ value.amountin +'</td>';
@@ -87,7 +88,7 @@ if(bcountl>55){
             }
             trx += '<td>'+ '<a href='+"/explorer/address/"+value.to_address+'>'+ value.to_address +'</a>' +'</td>';
             trx += '<td>'+ value.fee +'</td>';
-            trx += '<td>'+ value.blocktime +'</td>';
+            trx += '<td>'+ moment(localTime).fromNow() +'</td>';
             trx += '</tr>';      
             });
 

@@ -28,6 +28,7 @@ $.ajax({
             var trx ='';
             var countt=0;
             $.each(res.transactions,function(key,value){   
+              var localTime  = moment.utc(value.blocktime).toDate();
               countt+=1  
           if(countt<=10){
             trx += '<tr>';
@@ -50,7 +51,7 @@ $.ajax({
             }else{
                 trx += '<td >Confirmed </td>';
             }
-            trx += '<td>'+ value.blocktime +'</td>';
+            trx += '<td>'+ moment(localTime).fromNow() +'</td>';
             trx += '</tr>';      
           }
             }); 

@@ -12,6 +12,7 @@ $.ajax({
         success:function(res){
         var trx='';
         $.each(res,function(key,value){     
+            var localTime  = moment.utc(value.blocktime).toDate();
             trx += '<tr>';
             trx += '<td>'+ '<a href='+"/explorer/trx/"+value.trxhash+'>'+ value.trxhash.substring(0, 20) +'...</a>' +'</td>';
             trx += '<td>'+ '<a href='+"/explorer/block/"+value.block_index+'>'+ value.block_index +'</a>' +'</td>';
@@ -23,7 +24,7 @@ $.ajax({
             }
             trx += '<td>'+ '<a href='+"/explorer/address/"+value.to_address+'>'+ value.to_address.substring(0, 20) +'...</a>' +'</td>';
             trx += '<td>'+ value.fee +'</td>';
-            trx += '<td>'+ value.blocktime +'</td>';
+            trx += '<td>'+ moment(localTime).fromNow() +'</td>';
             trx += '</tr>';      
             });
             $("#trxTable").append(trx);

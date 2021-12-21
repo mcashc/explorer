@@ -17,6 +17,7 @@ $.ajax({
 function allb(res=[]){
     var blocks='';
         $.each(res,function(key,value){    
+            var localTime  = moment.utc(value.tstamp).toDate();
             blocks += '<tr>';
             blocks += '<td>'+ '<a href='+"/explorer/block/"+value.block_index+'>'+ value.block_index +'</a>' +'</td>';
             blocks += '<td>'+ '<a href='+"/explorer/address/"+value.minerAddress+'>'+ value.minerAddress.substring(0,20) +'...</a>' +'</td>';
@@ -24,7 +25,7 @@ function allb(res=[]){
             blocks += '<td>'+ value.hash.substring(0,40) +'...</td>';
             blocks += '<td>'+ value.fee_reward+'</td>';
             blocks += '<td>'+ value.block_reward +'</td>';
-            blocks += '<td>'+ value.tstamp +'</td>';
+            blocks += '<td>'+ moment(localTime).fromNow()  +'</td>';
             blocks += '</tr>'; 
         });
         $("#allblocks").append(blocks);
