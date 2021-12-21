@@ -138,8 +138,22 @@ if(bcountl>55){
                     <div class="col-md-4">
                        Parent Hash
                     </div>
-                    <div class="col-md-8" id="prevhash">
-                        
+                    <div class="col-md-8" >
+                      <script>
+                        $(document).ready(function(){
+                            $("#copy4").click(function(){
+                                var copyText = document.getElementById("prevhash");
+                                var textArea = document.createElement("textarea");
+                                textArea.value = copyText.textContent;
+                                document.body.appendChild(textArea);
+                                textArea.select();
+                                document.execCommand("Copy");
+                                $.notify("Block Parent Hash Copied", "success");
+                                textArea.remove();
+                            });
+                       });
+                    </script>
+                    <span id="prevhash"></span>  <i class="fa fa-copy" type="button" id="copy4" style="cursor: pointer;"></i>
                   </div>
                 </div>
               </li>

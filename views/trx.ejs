@@ -15,11 +15,14 @@ $.ajax({
             $("#confirm").html(res.confirmation+" Blocks");
             $("#btime").html(res.blocktime+" UTC TIME");
             $("#ttime").html(res.trxtime+" UTC TIME");
-            $("#block_index").html(res.block_index+" Block Index");
+            $("#block_index").html(res.block_index);
+            $("#block_index").attr("href", "/explorer/block/"+res.block_index);
             $("#size").html(res.sizeof+" Byte");
             $("#fee").html(res.fee);
             $("#from_address").html(res.from_address);
+            $("#from_address").attr("href", "/explorer/address/"+res.from_address);
             $("#to_address").html(res.to_address);
+            $("#to_address").attr("href", "/explorer/address/"+res.to_address);
             $("#amountin").html(res.amountin);
             $("#amountout").html(res.amountout);
             if(res.status==0){
@@ -103,8 +106,8 @@ $.ajax({
                         <div class="col-md-4">
                             Block Included
                         </div>
-                        <div class="col-md-8" id="block_index">
-                            
+                        <div class="col-md-8" >
+                            <a id="block_index" href="/explorer/block"></a>  Block Height
                       </div>
                     </div>
                   </li>
@@ -140,7 +143,7 @@ $.ajax({
                                 });
                            });
                         </script>
-                        <span id="from_address"></span>  <i class="fa fa-copy" type="button" id="copy1" style="cursor: pointer;"></i>
+                        <a id="from_address" href="/explorer/address"></a>  <i class="fa fa-copy" type="button" id="copy1" style="cursor: pointer;"></i>
                       </div>
                     </div>
                   </li>
@@ -175,7 +178,7 @@ $.ajax({
                                 });
                            });
                         </script>
-                        <span id="to_address"></span>  <i class="fa fa-copy" type="button" id="copy2" style="cursor: pointer;"></i>
+                        <a id="to_address" href="/explorer/address"></a>  <i class="fa fa-copy" type="button" id="copy2" style="cursor: pointer;"></i>
                       </div>
                     </div>
                   </li>
