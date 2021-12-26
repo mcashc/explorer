@@ -3,20 +3,6 @@
 <p id="address" class="d-none"><%=address %></p>
 
 <div class="container mt-5">
-  <script>
-    $(document).ready(function(){
-        $("#copy").click(function(){
-            var copyText = document.getElementById("address");
-            var textArea = document.createElement("textarea");
-            textArea.value = copyText.textContent;
-            document.body.appendChild(textArea);
-            textArea.select();
-            document.execCommand("Copy");
-            $.notify("Address Copied", "success");
-            textArea.remove();
-        });
-   });
-  </script>
 
 <script type="text/javascript" language="javascript" class="init">
   var address = $("#address").text();
