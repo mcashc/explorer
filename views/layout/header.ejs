@@ -45,7 +45,7 @@
             }
             window.onclick = function(event) {
               if (!event.target.matches('.menubtn')) {
-                var dropdowns = document.getElementsByClassName("navbar-collapse");
+                var dropdowns = document.getElementsByClassName("dropdown-content");
                 var i;
                 for (i = 0; i < dropdowns.length; i++) {
                   var openDropdown = dropdowns[i];
@@ -56,7 +56,7 @@
               }
             }
             </script>
-          <div class="collapse navbar-collapse" id="navigationbar" role="navigation">
+          <div class="collapse navbar-collapse " id="navigationbar" role="navigation">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0"></ul>
             <ul class="navbar-nav d-flex mb-2 mb-lg-0">
               <li class="nav-item">
