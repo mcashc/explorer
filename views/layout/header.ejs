@@ -34,12 +34,29 @@
                 <img src="/images/favicon.png" class="logo" />
                 MCash
             </a>
-          <button class="btn btn-secondary menubtn" type="button" data-bs-toggle="collapse" 
+          <button class="btn btn-secondary menubtn" onclick="myFunction()" type="button" data-bs-toggle="collapse" 
           data-bs-target="#navigationbar" aria-controls="navigationbar" 
           aria-expanded="false" aria-label="Toggle navigation">
           <i class="fa fa-bars"></i>
           </button>
-          <div class="collapse navbar-collapse" id="navigationbar">
+          <script>
+            function myFunction() {
+              document.getElementById("navigationbar").classList.toggle("show");
+            }
+            window.onclick = function(event) {
+              if (!event.target.matches('.menubtn')) {
+                var dropdowns = document.getElementsByClassName("navbar-collapse");
+                var i;
+                for (i = 0; i < dropdowns.length; i++) {
+                  var openDropdown = dropdowns[i];
+                  if (openDropdown.classList.contains('show')) {
+                    openDropdown.classList.remove('show');
+                  }
+                }
+              }
+            }
+            </script>
+          <div class="collapse navbar-collapse" id="navigationbar" role="navigation">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0"></ul>
             <ul class="navbar-nav d-flex mb-2 mb-lg-0">
               <li class="nav-item">

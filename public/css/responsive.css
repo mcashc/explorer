@@ -34,6 +34,8 @@
       }
       .menubtn{
         display: block;
+        background-color: transparent;
+        border: transparent;
       }
       .expback{
         width: 100%;
