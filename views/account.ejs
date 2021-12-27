@@ -76,30 +76,7 @@ $.ajax({
   <div style="display: none;" id="addresshis">
     <div class="row">
             <ul class="list-group" style="display: inline-block;overflow: hidden; ">
-                <li class="list-group-item">
-                    <div class="row">
-                        <div class="col-md-4">
-                            Address
-                        </div>
-                        <script>
-                            $(document).ready(function(){
-                                $("#copy").click(function(){
-                                    var copyText = document.getElementById("address");
-                                    var textArea = document.createElement("textarea");
-                                    textArea.value = copyText.textContent;
-                                    document.body.appendChild(textArea);
-                                    textArea.select();
-                                    document.execCommand("Copy");
-                                    $.notify("Address Copied", "success");
-                                    textArea.remove();
-                                });
-                           });
-                        </script>
-                        <div class="col-md-8" >
-                            <span id="address"></span> <i class="fa fa-copy" type="button" id="copy" style="cursor: pointer;"></i>
-                      </div>
-                    </div>
-                  </li>
+             
     
                 <li class="list-group-item">
                     <div class="row">
@@ -144,6 +121,7 @@ $.ajax({
             <div class="col-12 mt-3 mb-5 mt-5">
               <ul class="nav nav-tabs" id="myTab" role="tablist">
                   <li class=""><a class="nav-link active tab-ctive" href="#sendc" data-toggle="tab">Send Coin</a></li>
+                  <li class=""><a class="nav-link tab-ctive" href="#receive" data-toggle="tab">Receive</a></li>
                   <li class=""><a class="nav-link tab-ctive" href="#trx" data-toggle="tab">Transaction</a></li>
                </ul>
                
@@ -210,6 +188,36 @@ $.ajax({
               </form>
                     
                   </div>
+
+                  <div class="tab-pane " id="receive">
+                    <div class="row">
+                      <div class="col-md-4">
+                          
+                      </div>
+                      <script>
+                          $(document).ready(function(){
+                              $("#copy").click(function(){
+                                  var copyText = document.getElementById("address");
+                                  var textArea = document.createElement("textarea");
+                                  textArea.value = copyText.textContent;
+                                  document.body.appendChild(textArea);
+                                  textArea.select();
+                                  document.execCommand("Copy");
+                                  $.notify("Address Copied", "success");
+                                  textArea.remove();
+                              });
+                         });
+                      </script>
+                      <div class="col-md-8 receive-address" style="font-size: 20px;" >
+                        <br/>
+                        <h2>Address</h2>
+                          <span id="address"></span> <i class="fa fa-copy" type="button" id="copy" style="cursor: pointer;"></i>
+                          <br/>
+                          <br/>
+                    </div>
+                  </div>
+                 </div>
+
                   <div class="tab-pane " id="trx">
                      <div class="table-responsive">
                       <table class="table mb-5" id="trxTable">
@@ -225,7 +233,10 @@ $.ajax({
                     </table>
                     <a class="btn btn-primary" style="float: right;display: none;" target="blank" id="alltrx" href="/explorer/address/">View All Transaction</a>
                   </div>
-               </div>
+               
+                
+                
+                </div>
           </div>
            
       </div>

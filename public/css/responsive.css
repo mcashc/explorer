@@ -41,6 +41,9 @@
         background-size: cover;
         position: relative;
       }
-
+      .receive-address{
+        font-size: 16px;
+        overflow-x: scroll;
+      }
 
 }
