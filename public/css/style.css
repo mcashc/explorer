@@ -61,6 +61,12 @@ body {
   font-size: large;
 }
 
+
+.list-group .list-group-item{
+  border-left: none;
+  border-right: none;
+}
+
 .menubtn{
   display: none;
 }

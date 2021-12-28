@@ -71,7 +71,10 @@
                             {block}
                             </tbody>
                             </table>
+                            {this.state.data.length>this.state.countt?
                             <button className="btn btn-primary" onClick={this.loadMore.bind()} style={{float:"right"}}>Load More</button>
+                            :""
+                            }
                             </div>
                
                           <div className="d-flex justify-content-center">

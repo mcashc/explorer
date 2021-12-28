@@ -136,9 +136,9 @@
                            <tr>
                             <td><a href={"/explorer/trx/"+value.trxhash}>{value.trxhash.substring(0, 20)}...</a></td>
                             {address==value.from_address ?
-                                 <td><p className="bg-danger text-white p-1 rounded"> -{value.amountin }</p></td>
+                                 <td><p className=" text-danger p-1 rounded"> -{value.amountin }</p></td>
                                  :
-                                   <td><p className="bg-success text-white p-1 rounded">+{value.amountout }</p></td>
+                                   <td><p className=" text-primary p-1 rounded">+{value.amountout }</p></td>
                                 }
                             {value.from_address=="coinbase" ?
                                 <td>COINBASE (Newly Generated Coins)</td>
@@ -179,7 +179,9 @@
        
 
             </table>
+            {this.state.data.length>this.state.countt?
             <button className="btn btn-primary" onClick={this.loadMore.bind()} style={{float:"right"}}>Load More</button>
+            :""}
            </div>
       </div>
   

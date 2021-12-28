@@ -34,9 +34,9 @@ $.ajax({
             trx += '<tr>';
             trx += '<td>'+ '<a href='+"/explorer/trx/"+value.trxhash+'>'+ value.trxhash.substring(0, 20) +'...</a>' +'</td>';
             if(address==value.from_address){
-                trx += '<td><p class="bg-danger text-white p-1 rounded">-'+ value.amountin +'</p></td>';
+                trx += '<td><p class="text-danger p-1 rounded">-'+ value.amountin +'</p></td>';
             }else{
-                trx += '<td><p class="bg-success text-white p-1 rounded">+'+ value.amountout +'</p></td>';
+                trx += '<td><p class="text-primary p-1 rounded">+'+ value.amountout +'</p></td>';
             }
             
             if(value.from_address=="coinbase"){
