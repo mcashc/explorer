@@ -22,22 +22,7 @@ body {
    color: white;
  }
 
-.footer-copyright{
 
-  /*
-  background-color: white;
-  color: black;
-  position: fixed;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  */
-  background-color: white;
-  color: black;
-  text-align: center;
-  width: 100%;
-
-}
 
 .btn:focus,
 .btn:active:focus,
